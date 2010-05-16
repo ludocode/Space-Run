@@ -1,0 +1,22 @@
+CC = g++
+
+WARNINGS = \
+	-Wall -Wstrict-aliasing \
+	-Wno-unused-parameter \
+	-Wcast-qual -Wcast-align -Wwrite-strings \
+	-fno-common \
+	-Wformat=2 -Wfloat-equal \
+	-Werror
+
+INCLUDE =
+
+LINK = -lglut -lGL
+
+.PHONY : all clean
+
+all: spacerun_linux
+	./spacerun_linux
+
+spacerun_linux: spacerun.cpp
+	$(CC) $(WARNINGS) $(INCLUDE) $(LINK) spacerun.cpp -o spacerun_linux
+

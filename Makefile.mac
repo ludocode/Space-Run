@@ -1,0 +1,22 @@
+CC = g++
+
+WARNINGS = \
+	-Wall -Wstrict-aliasing \
+	-Wno-unused-parameter \
+	-Wcast-qual -Wcast-align -Wwrite-strings \
+	-fno-common \
+	-Wformat=2 -Wfloat-equal \
+	-Werror
+
+INCLUDE =
+
+LINK = -F/System/Library/Frameworks -framework OpenGL -framework GLUT
+
+.PHONY : all clean
+
+all: spacerun_mac
+	./spacerun_mac
+
+spacerun_mac: spacerun.cpp
+	$(CC) $(WARNINGS) $(INCLUDE) $(LINK) spacerun.cpp -o spacerun_mac
+
