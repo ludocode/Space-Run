@@ -5,6 +5,8 @@
   of less than six hours. You may find it suspiciously similar to an ancient
   game called SkyRoads. Enjoy.
 
+  Thanks to ekilfoil for building the 64-bit Linux build.
+
   Copyright (C) 2010 Nicholas Fraser
 
   This software is provided 'as-is', without any express or implied

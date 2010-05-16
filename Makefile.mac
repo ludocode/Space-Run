@@ -8,7 +8,7 @@ WARNINGS = \
 	-Wformat=2 -Wfloat-equal \
 	-Werror
 
-INCLUDE = -arch i386 -arch x86_64 -arch ppc
+FLAGS = -arch i386 -arch x86_64 -arch ppc -mmacosx-version-min=10.4
 
 LINK = -F/System/Library/Frameworks -framework OpenGL -framework GLUT
 
@@ -18,5 +18,5 @@ all: spacerun_mac
 	./spacerun_mac
 
 spacerun_mac: spacerun.cpp
-	$(CC) $(WARNINGS) $(INCLUDE) $(LINK) spacerun.cpp -o spacerun_mac
+	$(CC) $(WARNINGS) $(FLAGS) $(LINK) spacerun.cpp -o spacerun_mac
 
