@@ -509,9 +509,20 @@ void ortho(void) {
   glLoadIdentity();
 }
 
+void paint_track_segment(Segment* segment, int row, int col) {
+  if (!segment->live)
+    return;
+  glPushMatrix();
+    glTranslatef(- col + (cols - 1) / 2.0f, 0.0f, row-0.0f);
+    glColor4f(segment->red / 255.0f, segment->green / 255.0f, segment->blue / 255.0f, 1.0f);
+    glutSolidCube(1.0f);
+  glPopMatrix();
+}
+
 void paint(void) {
   tick();
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glEnable(GL_CULL_FACE);
 
   // prepare starfield
   glDisable(GL_DEPTH_TEST);
@@ -547,7 +558,6 @@ void paint(void) {
              0.0f, 1.0f,  0.0f);
 
   // setup world
-  glEnable(GL_DEPTH_TEST);
   glEnable(GL_LIGHTING);
 
   // transform world
@@ -558,22 +568,18 @@ void paint(void) {
     // zoom out
     //glScalef(0.1f, 0.1f, 0.1f);
 
-    // paint track
-    for (int row = 0; row < rows; ++row) {
-      for (int col = 0; col < cols; ++col) {
-        Segment* segment = &track[(row + current_row) % rows][col];
-        if (!segment->live)
-          continue;
-        glPushMatrix();
-          glTranslatef(- col + (cols - 1) / 2.0f, 0.0f, row-0.0f);
-          glColor4f(segment->red / 255.0f, segment->green / 255.0f, segment->blue / 255.0f, 1.0f);
-          glutSolidCube(1.0f);
-        glPopMatrix();
-      }
+    // paint track back to front and outside in, since we are without a depth buffer (apparently broken on some platforms)
+    for (int row = rows - 1; row >= 0; --row) {
+      paint_track_segment(&track[(row + current_row) % rows][0], row, 0);
+      paint_track_segment(&track[(row + current_row) % rows][4], row, 4);
+      paint_track_segment(&track[(row + current_row) % rows][1], row, 1);
+      paint_track_segment(&track[(row + current_row) % rows][3], row, 3);
+      paint_track_segment(&track[(row + current_row) % rows][2], row, 2);
     }
   glPopMatrix();
 
   // paint ship (lots of magic numbers!)
+  glEnable(GL_DEPTH_TEST);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   float alpha = (state == Dead ? 0.0f : (state == Exploding ? (speed / explode_fade_speed) : 1.0f));

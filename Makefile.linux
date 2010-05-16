@@ -10,7 +10,7 @@ WARNINGS = \
 
 INCLUDE =
 
-LINK = -lglut -lGL
+LINK = -lglut -lGL -lGLU
 
 .PHONY : all clean
 

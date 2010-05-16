@@ -8,7 +8,7 @@ WARNINGS = \
 	-Wformat=2 -Wfloat-equal \
 	-Werror
 
-INCLUDE =
+INCLUDE = -arch i386 -arch x86_64 -arch ppc
 
 LINK = -F/System/Library/Frameworks -framework OpenGL -framework GLUT
 
